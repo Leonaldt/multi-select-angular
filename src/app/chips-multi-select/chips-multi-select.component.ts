@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatChip, MatChipList } from '@angular/material/chips';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -30,7 +30,7 @@ export class ChipsMultiSelectComponent implements OnInit, AfterViewInit, Control
 
   disabled = false;
 
-  constructor() { }
+  constructor(private cdr: ChangeDetectorRef) { }
 
   writeValue(value: string[]): void {
     // When form value set when chips list initialized
@@ -73,6 +73,8 @@ export class ChipsMultiSelectComponent implements OnInit, AfterViewInit, Control
 
         this.propagateChange(this.value);
       });
+
+    this.cdr.detectChanges();
   }
 
   propagateChange(value: string[]) {
